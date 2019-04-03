@@ -39,7 +39,7 @@ public class GUI {
     /**
      * Create the application.
      */
-    public GUI() {
+    private GUI() {
         initialize();
     }
 

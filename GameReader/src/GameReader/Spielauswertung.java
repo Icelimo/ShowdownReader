@@ -20,28 +20,25 @@ public class Spielauswertung {
 
         Player p1 = new Player();
         Player p2 = new Player();
-        //Nickname des Spielers
+
         for(String s : game) {
+            //Nickname des Spielers
             if((s.indexOf("|player|p1")!=-1)&&(s.length()>11)) {
                 p1.setNickname(s.split("\\|")[3]);
             }
             if((s.indexOf("|player|p2")!=-1)&&(s.length()>11)) {
                 p2.setNickname(s.split("\\|")[3]);
             }
-        }
 
-        //Welche Pokemon sind dabei?
-        for(String s : game) {
+            //Welche Pokemon sind dabei?
             if(s.indexOf("|poke|p1")!=-1) {
                 p1.getMons().add(new Pokemon(s.split("\\|")[3].split(",")[0]));
             }
             if(s.indexOf("|poke|p2")!=-1) {
                 p2.getMons().add(new Pokemon(s.split("\\|")[3].split(",")[0]));
             }
-        }
 
-        //Nicks & Detailschange TODO:Drag
-        for(String s : game) {
+            //Nicks & Detailschange
             if(s.indexOf("|switch|p1")!=-1||s.indexOf("|drag|p1")!=-1) {
                 if(s.split("\\|")[3].split(",")[0].indexOf("Silvally-")!=-1 && p1.indexOfName("Silvally-*")!=-1) {//Silvally-Problem
                     p1.getMons().get(p1.indexOfName("Silvally-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
@@ -73,16 +70,7 @@ public class Spielauswertung {
                 catch(ArrayIndexOutOfBoundsException e) {}
             }
 
-//			if(s.indexOf("|detailschange|p1")!=-1) {
-//				p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5))).setPokemon(s.split("\\|")[3].split(",")[0]);
-//			}
-//			if(s.indexOf("|detailschange|p2")!=-1) {
-//				p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5))).setPokemon(s.split("\\|")[3].split(",")[0]);
-//			}
-        }
-
-        //Win
-        for(String s : game) {
+            //Win
             if(s.indexOf("|win|")!=-1) {
                 if(p1.getNickname().equals(s.split("\\|")[2])) {
                     p1.setWinner(true);
@@ -91,8 +79,15 @@ public class Spielauswertung {
                     p2.setWinner(true);
                 }
             }
-        }
 
+            //Datailschange
+            if(s.indexOf("|detailschange|p1")!=-1) {
+                p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5))).setPokemon(s.split("\\|")[3].split(",")[0]);
+            }
+            if(s.indexOf("|detailschange|p2")!=-1) {
+                p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5))).setPokemon(s.split("\\|")[3].split(",")[0]);
+            }
+        }
 
 
 
@@ -102,15 +97,6 @@ public class Spielauswertung {
         Pokemon weatherBy=null;
         //Schaden
         for(String s : game) {
-
-            /*
-             * Last Move zuruecksetzen, wenn man Switcht
-             */
-            if(s.indexOf("|switch|")!=-1||s.indexOf("|drag|")!=-1) {
-                lastMove=null;
-            }
-
-
             /*
              * LastMove abspeichern
              */
@@ -122,20 +108,22 @@ public class Spielauswertung {
             }
 
             /*
-             * LastMove am Ender der Runde löschen
+             * LastMove am Ende der Runde löschen
              */
             if(s.indexOf("|turn|")!=-1) {
                 lastMove=null;
             }
 
             /*
-             * aktive Pokemon abspeichern
+             * aktive Pokemon abspeichern und LastMove zuruecksetzen
              */
             if(s.indexOf("|switch|p1")!=-1||s.indexOf("|drag|p1")!=-1) {
                 activeP1=p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5, s.split("\\|")[2].length())));
+                lastMove=null;
             }
             if(s.indexOf("|switch|p2")!=-1||s.indexOf("|drag|p2")!=-1) {
                 activeP2=p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5, s.split("\\|")[2].length())));
+                lastMove=null;
             }
 
             /*
@@ -376,7 +364,6 @@ public class Spielauswertung {
             if((s.indexOf("|-status|p1")!=-1)) {
                 if(s.indexOf("|[of] p")!=-1) {
                     activeP1.setStatusedBy(activeP2);
-                    System.out.println("s");
                 } else if(lastMove!=null) {
                     activeP1.setStatusedBy(lastMove);
                 } else {
@@ -386,7 +373,6 @@ public class Spielauswertung {
             if((s.indexOf("|-status|p2")!=-1)) {
                 if(s.indexOf("|[of] p")!=-1) {
                     activeP2.setStatusedBy(activeP1);
-                    System.out.println("s");
                 } else if(lastMove!=null) {
                     activeP2.setStatusedBy(lastMove);
                 } else {
@@ -437,9 +423,10 @@ public class Spielauswertung {
 
 
             /*
-             * HJK
+             * HJK, JK, Life Orb, Recoil, Black Sludge, Sticky Barb, Solar Power, Dry Skin
              */
-            if((s.indexOf("|[from] highjumpkick")!=-1)) {
+            if((s.indexOf("|[from] highjumpkick")!=-1)||(s.indexOf("|[from] jumpkick")!=-1)||(s.indexOf("|[from] item: Life Orb")!=-1)||(s.indexOf("|[from] Recoil")!=-1)
+                    ||(s.indexOf("|[from] item: Black Sludge")!=-1)||(s.indexOf("|[from] item: Sticky Barb")!=-1)||(s.indexOf("|[from] ability: Solar Power")!=-1)||(s.indexOf("|[from] ability: Dry Skin")!=-1)) {
                 if((s.indexOf("|-damage|p1")!=-1)) {
                     if(s.indexOf("0 fnt")!=-1) {
                         activeP1.setDead(true);
@@ -463,367 +450,11 @@ public class Spielauswertung {
             }
 
             /*
-             * JK
+             * Liquid Ooze, Aftermath, Rough Skin, Iron Barbs, Bad Dreams, Rocky Helmet, Spiky Shield, Rowap Berry, Jaboca Berry
              */
-            if((s.indexOf("|[from] jumpkick")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        if(activeP1.getLastDmgBy()!=null) {
-                            activeP1.getLastDmgBy().killsPlus1();
-                        }else {
-                            activeP2.killsPlus1();
-                        }
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        if(activeP2.getLastDmgBy()!=null) {
-                            activeP2.getLastDmgBy().killsPlus1();
-                        }else {
-                            activeP1.killsPlus1();
-                        }
-                    }
-                }
-            }
-
-            /*
-             * LOrb
-             */
-            if((s.indexOf("|[from] item: Life Orb")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        if(activeP1.getLastDmgBy()!=null) {
-                            activeP1.getLastDmgBy().killsPlus1();
-                        }else {
-                            activeP2.killsPlus1();
-                        }
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        if(activeP2.getLastDmgBy()!=null) {
-                            activeP2.getLastDmgBy().killsPlus1();
-                        }else {
-                            activeP1.killsPlus1();
-                        }
-                    }
-                }
-            }
-
-            /*
-             * Recoil
-             */
-            if((s.indexOf("|[from] Recoil")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        if(activeP1.getLastDmgBy()!=null) {
-                            activeP1.getLastDmgBy().killsPlus1();
-                        }else {
-                            activeP2.killsPlus1();
-                        }
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        if(activeP2.getLastDmgBy()!=null) {
-                            activeP2.getLastDmgBy().killsPlus1();
-                        }else {
-                            activeP1.killsPlus1();
-                        }
-                    }
-                }
-            }
-
-            /*
-             * Black Sludge
-             */
-            if((s.indexOf("|[from] item: Black Sludge")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        if(activeP1.getLastDmgBy()!=null) {
-                            activeP1.getLastDmgBy().killsPlus1();
-                        }else {
-                            activeP2.killsPlus1();
-                        }
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        if(activeP2.getLastDmgBy()!=null) {
-                            activeP2.getLastDmgBy().killsPlus1();
-                        }else {
-                            activeP1.killsPlus1();
-                        }
-                    }
-                }
-            }
-
-            /*
-             * Sticky Barb
-             */
-            if((s.indexOf("|[from] item: Sticky Barb")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        if(activeP1.getLastDmgBy()!=null) {
-                            activeP1.getLastDmgBy().killsPlus1();
-                        }else {
-                            activeP2.killsPlus1();
-                        }
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        if(activeP2.getLastDmgBy()!=null) {
-                            activeP2.getLastDmgBy().killsPlus1();
-                        }else {
-                            activeP1.killsPlus1();
-                        }
-                    }
-                }
-            }
-
-            /*
-             * Solar Power
-             */
-            if((s.indexOf("|[from] ability: Solar Power")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        if(activeP1.getLastDmgBy()!=null) {
-                            activeP1.getLastDmgBy().killsPlus1();
-                        }else {
-                            activeP2.killsPlus1();
-                        }
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        if(activeP2.getLastDmgBy()!=null) {
-                            activeP2.getLastDmgBy().killsPlus1();
-                        }else {
-                            activeP1.killsPlus1();
-                        }
-                    }
-                }
-            }
-
-            /*
-             * Dry Skin
-             */
-            if((s.indexOf("|[from] ability: Dry Skin")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        if(activeP1.getLastDmgBy()!=null) {
-                            activeP1.getLastDmgBy().killsPlus1();
-                        }else {
-                            activeP2.killsPlus1();
-                        }
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        if(activeP2.getLastDmgBy()!=null) {
-                            activeP2.getLastDmgBy().killsPlus1();
-                        }else {
-                            activeP1.killsPlus1();
-                        }
-                    }
-                }
-            }
-
-            /*
-             * Liquid Ooze
-             */
-            if((s.indexOf("|[from] ability: Liquid Ooze")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        activeP2.killsPlus1();
-                    } else {
-                        activeP1.setLastDmgBy(activeP2);
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        activeP1.killsPlus1();
-                    } else {
-                        activeP2.setLastDmgBy(activeP1);
-                    }
-                }
-            }
-
-            /*
-             * Aftermath
-             */
-            if((s.indexOf("|[from] ability: Aftermath")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        activeP2.killsPlus1();
-                    } else {
-                        activeP1.setLastDmgBy(activeP2);
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        activeP1.killsPlus1();
-                    } else {
-                        activeP2.setLastDmgBy(activeP1);
-                    }
-                }
-            }
-
-            /*
-             * Rough Skin
-             */
-            if((s.indexOf("|[from] ability: Rough Skin")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        activeP2.killsPlus1();
-                    } else {
-                        activeP1.setLastDmgBy(activeP2);
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        activeP1.killsPlus1();
-                    } else {
-                        activeP2.setLastDmgBy(activeP1);
-                    }
-                }
-            }
-
-            /*
-             * Liquid Ooze
-             */
-            if((s.indexOf("|[from] ability: Iron Barbs")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        activeP2.killsPlus1();
-                    } else {
-                        activeP1.setLastDmgBy(activeP2);
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        activeP1.killsPlus1();
-                    } else {
-                        activeP2.setLastDmgBy(activeP1);
-                    }
-                }
-            }
-
-            /*
-             * Liquid Ooze
-             */
-            if((s.indexOf("|[from] ability: Bad Dreams")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        activeP2.killsPlus1();
-                    } else {
-                        activeP1.setLastDmgBy(activeP2);
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        activeP1.killsPlus1();
-                    } else {
-                        activeP2.setLastDmgBy(activeP1);
-                    }
-                }
-            }
-
-            /*
-             * Rocky Helmet
-             */
-            if((s.indexOf("|[from] item: Rocky Helmet")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        activeP2.killsPlus1();
-                    } else {
-                        activeP1.setLastDmgBy(activeP2);
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        activeP1.killsPlus1();
-                    } else {
-                        activeP2.setLastDmgBy(activeP1);
-                    }
-                }
-            }
-
-            /*
-             * Spiky Shield
-             */
-            if((s.indexOf("|[from] Spiky Shield")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        activeP2.killsPlus1();
-                    } else {
-                        activeP1.setLastDmgBy(activeP2);
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        activeP1.killsPlus1();
-                    } else {
-                        activeP2.setLastDmgBy(activeP1);
-                    }
-                }
-            }
-
-            /*
-             * Rowap Berry
-             */
-            if((s.indexOf("|[from] item: Rowap Berry")!=-1)) {
-                if((s.indexOf("|-damage|p1")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP1.setDead(true);
-                        activeP2.killsPlus1();
-                    } else {
-                        activeP1.setLastDmgBy(activeP2);
-                    }
-                }
-                if((s.indexOf("|-damage|p2")!=-1)) {
-                    if(s.indexOf("0 fnt")!=-1) {
-                        activeP2.setDead(true);
-                        activeP1.killsPlus1();
-                    } else {
-                        activeP2.setLastDmgBy(activeP1);
-                    }
-                }
-            }
-
-            /*
-             * Jaboca Berry
-             */
-            if((s.indexOf("|[from] item: Jaboca Berry")!=-1)) {
+            if((s.indexOf("|[from] ability: Liquid Ooze")!=-1)||(s.indexOf("|[from] ability: Aftermath")!=-1)||(s.indexOf("|[from] ability: Rough Skin")!=-1)||(s.indexOf("|[from] ability: Iron Barbs")!=-1)
+                    ||(s.indexOf("|[from] ability: Bad Dreams")!=-1)||(s.indexOf("|[from] item: Rocky Helmet")!=-1)||(s.indexOf("|[from] Spiky Shield")!=-1)||(s.indexOf("|[from] item: Rowap Berry")!=-1)
+                    ||(s.indexOf("|[from] item: Jaboca Berry")!=-1)) {
                 if((s.indexOf("|-damage|p1")!=-1)) {
                     if(s.indexOf("0 fnt")!=-1) {
                         activeP1.setDead(true);
@@ -967,10 +598,62 @@ public class Spielauswertung {
             }
 
             /*
-             * Lunar Dance
+             * Lunar Dance, Healing Wish
              */
-            if((s.indexOf("|move|p1")!=-1)&&(s.indexOf("|Lunar Dance|")!=-1)) {
-                if((s.indexOf("|[still]")==-1)) {
+            if((s.indexOf("|Lunar Dance|")!=-1)||(s.indexOf("|Healing Wish|")!=-1)) {
+                if((s.indexOf("|move|p1")!=-1)) {
+                    if((s.indexOf("|[still]")==-1)) {
+                        activeP1.setDead(true);
+                        if(activeP1.getLastDmgBy()!=null) {
+                            activeP1.getLastDmgBy().killsPlus1();
+                        }else {
+                            activeP2.killsPlus1();
+                        }
+                    }
+                }
+                if((s.indexOf("|move|p2")!=-1)) {
+                    if((s.indexOf("|[still]")==-1)) {
+                        activeP2.setDead(true);
+                        if(activeP2.getLastDmgBy()!=null) {
+                            activeP2.getLastDmgBy().killsPlus1();
+                        }else {
+                            activeP1.killsPlus1();
+                        }
+                    }
+                }
+            }
+
+            /*
+             * Final Gambit, Memento
+             */
+            if((s.indexOf("|Final Gambit|")!=-1)||(s.indexOf("|Memento|")!=-1)) {
+                if((s.indexOf("|move|p1")!=-1)) {
+                    if((s.indexOf("|[notarget]")==-1)) {
+                        activeP1.setDead(true);
+                        if(activeP1.getLastDmgBy()!=null) {
+                            activeP1.getLastDmgBy().killsPlus1();
+                        }else {
+                            activeP2.killsPlus1();
+                        }
+                    }
+                }
+                if((s.indexOf("|move|p2")!=-1)) {
+                    if((s.indexOf("|[notarget]")==-1)) {
+                        activeP2.setDead(true);
+                        if(activeP2.getLastDmgBy()!=null) {
+                            activeP2.getLastDmgBy().killsPlus1();
+                        }else {
+                            activeP1.killsPlus1();
+                        }
+                    }
+                }
+            }
+
+            /*
+             * Explosion, Self Destruct
+             */
+            if((s.indexOf("|Explosion|")!=-1)||(s.indexOf("|Self-Destruct|")!=-1)) {
+                if((s.indexOf("|move|p1")!=-1)) {
                     activeP1.setDead(true);
                     if(activeP1.getLastDmgBy()!=null) {
                         activeP1.getLastDmgBy().killsPlus1();
@@ -978,155 +661,30 @@ public class Spielauswertung {
                         activeP2.killsPlus1();
                     }
                 }
-            }
-            if((s.indexOf("|move|p2")!=-1)&&(s.indexOf("|Lunar Dance|")!=-1)) {
-                if((s.indexOf("|[still]")==-1)) {
+                if((s.indexOf("|move|p2")!=-1)) {
                     activeP2.setDead(true);
                     if(activeP2.getLastDmgBy()!=null) {
                         activeP2.getLastDmgBy().killsPlus1();
                     }else {
                         activeP1.killsPlus1();
                     }
-                }
-            }
-
-            /*
-             * Healing Wish
-             */
-            if((s.indexOf("|move|p1")!=-1)&&(s.indexOf("|Healing Wish|")!=-1)) {
-                if((s.indexOf("|[still]")==-1)) {
-                    activeP1.setDead(true);
-                    if(activeP1.getLastDmgBy()!=null) {
-                        activeP1.getLastDmgBy().killsPlus1();
-                    }else {
-                        activeP2.killsPlus1();
-                    }
-                }
-            }
-            if((s.indexOf("|move|p2")!=-1)&&(s.indexOf("|Healing Wish|")!=-1)) {
-                if((s.indexOf("|[still]")==-1)) {
-                    activeP2.setDead(true);
-                    if(activeP2.getLastDmgBy()!=null) {
-                        activeP2.getLastDmgBy().killsPlus1();
-                    }else {
-                        activeP1.killsPlus1();
-                    }
-                }
-            }
-
-            /*
-             * Memento
-             */
-            if((s.indexOf("|move|p1")!=-1)&&(s.indexOf("|Memento|")!=-1)) {
-                if((s.indexOf("|[notarget]")==-1)) {
-                    activeP1.setDead(true);
-                    if(activeP1.getLastDmgBy()!=null) {
-                        activeP1.getLastDmgBy().killsPlus1();
-                    }else {
-                        activeP2.killsPlus1();
-                    }
-                }
-            }
-            if((s.indexOf("|move|p2")!=-1)&&(s.indexOf("|Memento|")!=-1)) {
-                if((s.indexOf("|[notarget]")==-1)) {
-                    activeP2.setDead(true);
-                    if(activeP2.getLastDmgBy()!=null) {
-                        activeP2.getLastDmgBy().killsPlus1();
-                    }else {
-                        activeP1.killsPlus1();
-                    }
-                }
-            }
-
-            /*
-             * Final Gambit
-             */
-            if((s.indexOf("|move|p1")!=-1)&&(s.indexOf("|Final Gambit|")!=-1)) {
-                if((s.indexOf("|[notarget]")==-1)) {
-                    activeP1.setDead(true);
-                    if(activeP1.getLastDmgBy()!=null) {
-                        activeP1.getLastDmgBy().killsPlus1();
-                    }else {
-                        activeP2.killsPlus1();
-                    }
-                }
-            }
-            if((s.indexOf("|move|p2")!=-1)&&(s.indexOf("|Final Gambit|")!=-1)) {
-                if((s.indexOf("|[notarget]")==-1)) {
-                    activeP2.setDead(true);
-                    if(activeP2.getLastDmgBy()!=null) {
-                        activeP2.getLastDmgBy().killsPlus1();
-                    }else {
-                        activeP1.killsPlus1();
-                    }
-                }
-            }
-
-            /*
-             * Explosion
-             */
-            if((s.indexOf("|move|p1")!=-1)&&(s.indexOf("|Explosion|")!=-1)) {
-                activeP1.setDead(true);
-                if(activeP1.getLastDmgBy()!=null) {
-                    activeP1.getLastDmgBy().killsPlus1();
-                }else {
-                    activeP2.killsPlus1();
-                }
-            }
-            if((s.indexOf("|move|p2")!=-1)&&(s.indexOf("|Explosion|")!=-1)) {
-                activeP2.setDead(true);
-                if(activeP2.getLastDmgBy()!=null) {
-                    activeP2.getLastDmgBy().killsPlus1();
-                }else {
-                    activeP1.killsPlus1();
-                }
-            }
-
-            /*
-             * Self-Destruct
-             */
-            if((s.indexOf("|move|p1")!=-1)&&(s.indexOf("|Self-Destruct|")!=-1)) {
-                activeP1.setDead(true);
-                if(activeP1.getLastDmgBy()!=null) {
-                    activeP1.getLastDmgBy().killsPlus1();
-                }else {
-                    activeP2.killsPlus1();
-                }
-            }
-            if((s.indexOf("|move|p2")!=-1)&&(s.indexOf("|Self-Destruct|")!=-1)) {
-                activeP2.setDead(true);
-                if(activeP2.getLastDmgBy()!=null) {
-                    activeP2.getLastDmgBy().killsPlus1();
-                }else {
-                    activeP1.killsPlus1();
                 }
             }
         }
-//		System.out.println(p1.getMons().get(0).getPokemon()+" "+p1.getMons().get(0).isDead()+" Kills:"+p1.getMons().get(0).getKills());
-//		System.out.println(p1.getMons().get(1).getPokemon()+" "+p1.getMons().get(1).isDead()+" Kills:"+p1.getMons().get(1).getKills());
-//		System.out.println(p1.getMons().get(2).getPokemon()+" "+p1.getMons().get(2).isDead()+" Kills:"+p1.getMons().get(2).getKills());
-//		System.out.println(p1.getMons().get(3).getPokemon()+" "+p1.getMons().get(3).isDead()+" Kills:"+p1.getMons().get(3).getKills());
-//		System.out.println(p1.getMons().get(4).getPokemon()+" "+p1.getMons().get(4).isDead()+" Kills:"+p1.getMons().get(4).getKills());
-//		System.out.println(p1.getMons().get(5).getPokemon()+" "+p1.getMons().get(5).isDead()+" Kills:"+p1.getMons().get(5).getKills());
-//		System.out.println(p2.getMons().get(0).getPokemon()+" "+p2.getMons().get(0).isDead()+" Kills:"+p2.getMons().get(0).getKills());
-//		System.out.println(p2.getMons().get(1).getPokemon()+" "+p2.getMons().get(1).isDead()+" Kills:"+p2.getMons().get(1).getKills());
-//		System.out.println(p2.getMons().get(2).getPokemon()+" "+p2.getMons().get(2).isDead()+" Kills:"+p2.getMons().get(2).getKills());
-//		System.out.println(p2.getMons().get(3).getPokemon()+" "+p2.getMons().get(3).isDead()+" Kills:"+p2.getMons().get(3).getKills());
-//		System.out.println(p2.getMons().get(4).getPokemon()+" "+p2.getMons().get(4).isDead()+" Kills:"+p2.getMons().get(4).getKills());
-//		System.out.println(p2.getMons().get(5).getPokemon()+" "+p2.getMons().get(5).isDead()+" Kills:"+p2.getMons().get(5).getKills());
-//		System.out.println("Player 1 wins:" + p1.isWinner());
-//		System.out.println("Player 2 wins:" + p2.isWinner());
-
-        for(String s : game) {
-
-            if(s.indexOf("|detailschange|p1")!=-1) {
-                p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5))).setPokemon(s.split("\\|")[3].split(",")[0]);
-            }
-            if(s.indexOf("|detailschange|p2")!=-1) {
-                p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5))).setPokemon(s.split("\\|")[3].split(",")[0]);
-            }
-        }
-
+        System.out.println(p1.getMons().get(0).getPokemon()+" "+p1.getMons().get(0).isDead()+" Kills:"+p1.getMons().get(0).getKills());
+        System.out.println(p1.getMons().get(1).getPokemon()+" "+p1.getMons().get(1).isDead()+" Kills:"+p1.getMons().get(1).getKills());
+        System.out.println(p1.getMons().get(2).getPokemon()+" "+p1.getMons().get(2).isDead()+" Kills:"+p1.getMons().get(2).getKills());
+        System.out.println(p1.getMons().get(3).getPokemon()+" "+p1.getMons().get(3).isDead()+" Kills:"+p1.getMons().get(3).getKills());
+        System.out.println(p1.getMons().get(4).getPokemon()+" "+p1.getMons().get(4).isDead()+" Kills:"+p1.getMons().get(4).getKills());
+        System.out.println(p1.getMons().get(5).getPokemon()+" "+p1.getMons().get(5).isDead()+" Kills:"+p1.getMons().get(5).getKills());
+        System.out.println(p2.getMons().get(0).getPokemon()+" "+p2.getMons().get(0).isDead()+" Kills:"+p2.getMons().get(0).getKills());
+        System.out.println(p2.getMons().get(1).getPokemon()+" "+p2.getMons().get(1).isDead()+" Kills:"+p2.getMons().get(1).getKills());
+        System.out.println(p2.getMons().get(2).getPokemon()+" "+p2.getMons().get(2).isDead()+" Kills:"+p2.getMons().get(2).getKills());
+        System.out.println(p2.getMons().get(3).getPokemon()+" "+p2.getMons().get(3).isDead()+" Kills:"+p2.getMons().get(3).getKills());
+        System.out.println(p2.getMons().get(4).getPokemon()+" "+p2.getMons().get(4).isDead()+" Kills:"+p2.getMons().get(4).getKills());
+        System.out.println(p2.getMons().get(5).getPokemon()+" "+p2.getMons().get(5).isDead()+" Kills:"+p2.getMons().get(5).getKills());
+        System.out.println("Player 1 wins(" + p1.getNickname() + "): " + p1.isWinner());
+        System.out.println("Player 2 wins(" + p2.getNickname() + "): " + p2.isWinner());
 
         return new Player[] {p1, p2};
 
@@ -1146,8 +704,22 @@ public class Spielauswertung {
 
             String inputLine;
             ArrayList<String> h = new ArrayList<>();
+            ArrayList<String> bull = new ArrayList<>();
+            boolean isBull = true;
+
             while ((inputLine = in.readLine()) != null) {
-                h.add(inputLine);
+                if(isBull) bull.add(inputLine);
+                else {
+                    h.add(inputLine);
+                }
+
+                if(inputLine.indexOf("|j|")!=-1) {
+                    isBull = false;
+                }
+
+                if(inputLine.indexOf("|win|")!=-1) {
+                    isBull = true;
+                }
             }
             in.close();
 
