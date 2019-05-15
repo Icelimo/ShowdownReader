@@ -425,7 +425,7 @@ public class Spielauswertung {
             /*
              * HJK, JK, Life Orb, Recoil, Black Sludge, Sticky Barb, Solar Power, Dry Skin
              */
-            if((s.indexOf("|[from] highjumpkick")!=-1)||(s.indexOf("|[from] jumpkick")!=-1)||(s.indexOf("|[from] item: Life Orb")!=-1)||(s.indexOf("|[from] Recoil")!=-1)
+            if((s.indexOf("|[from] High Jump Kick")!=-1)||(s.indexOf("|[from] Jump Kick")!=-1)||(s.indexOf("|[from] item: Life Orb")!=-1)||(s.indexOf("|[from] Recoil")!=-1) ||(s.indexOf("|[from] recoil")!=-1)
                     ||(s.indexOf("|[from] item: Black Sludge")!=-1)||(s.indexOf("|[from] item: Sticky Barb")!=-1)||(s.indexOf("|[from] ability: Solar Power")!=-1)||(s.indexOf("|[from] ability: Dry Skin")!=-1)) {
                 if((s.indexOf("|-damage|p1")!=-1)) {
                     if(s.indexOf("0 fnt")!=-1) {
@@ -452,7 +452,7 @@ public class Spielauswertung {
             /*
              * Liquid Ooze, Aftermath, Rough Skin, Iron Barbs, Bad Dreams, Rocky Helmet, Spiky Shield, Rowap Berry, Jaboca Berry
              */
-            if((s.indexOf("|[from] ability: Liquid Ooze")!=-1)||(s.indexOf("|[from] ability: Aftermath")!=-1)||(s.indexOf("|[from] ability: Rough Skin")!=-1)||(s.indexOf("|[from] ability: Iron Barbs")!=-1)
+            if((s.indexOf("|[from] jumpkick")!=-1)||(s.indexOf("|[from] highjumpkick")!=-1)||(s.indexOf("|[from] ability: Liquid Ooze")!=-1)||(s.indexOf("|[from] ability: Aftermath")!=-1)||(s.indexOf("|[from] ability: Rough Skin")!=-1)||(s.indexOf("|[from] ability: Iron Barbs")!=-1)
                     ||(s.indexOf("|[from] ability: Bad Dreams")!=-1)||(s.indexOf("|[from] item: Rocky Helmet")!=-1)||(s.indexOf("|[from] Spiky Shield")!=-1)||(s.indexOf("|[from] item: Rowap Berry")!=-1)
                     ||(s.indexOf("|[from] item: Jaboca Berry")!=-1)) {
                 if((s.indexOf("|-damage|p1")!=-1)) {
