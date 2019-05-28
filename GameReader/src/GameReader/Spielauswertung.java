@@ -40,16 +40,16 @@ public class Spielauswertung {
 
             //Nicks & Detailschange
             if(s.indexOf("|switch|p1")!=-1||s.indexOf("|drag|p1")!=-1) {
-                if(s.split("\\|")[3].split(",")[0].indexOf("Silvally-")!=-1 && p1.indexOfName("Silvally-*")!=-1) {//Silvally-Problem
+                if(s.split("\\|")[3].split(",")[0].indexOf("Silvally")!=-1 && p1.indexOfName("Silvally-*")!=-1) {//Silvally-Problem
                     p1.getMons().get(p1.indexOfName("Silvally-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }
-                if(s.split("\\|")[3].split(",")[0].indexOf("Arceus-")!=-1 && p1.indexOfName("Arceus-*")!=-1) {//Arceus-Problem
+                if(s.split("\\|")[3].split(",")[0].indexOf("Arceus")!=-1 && p1.indexOfName("Arceus-*")!=-1) {//Arceus-Problem
                     p1.getMons().get(p1.indexOfName("Arceus-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }
-                if(s.split("\\|")[3].split(",")[0].indexOf("Genesect-")!=-1 && p1.indexOfName("Genesect-*")!=-1) {//Genesect-Problem
+                if(s.split("\\|")[3].split(",")[0].indexOf("Genesect")!=-1 && p1.indexOfName("Genesect-*")!=-1) {//Genesect-Problem
                     p1.getMons().get(p1.indexOfName("Genesect-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }
-                if(s.split("\\|")[3].split(",")[0].indexOf("Gourgeist-")!=-1 && p1.indexOfName("Gourgeist-*")!=-1) {//Genesect-Problem
+                if(s.split("\\|")[3].split(",")[0].indexOf("Gourgeist")!=-1 && p1.indexOfName("Gourgeist-*")!=-1) {//Genesect-Problem
                     p1.getMons().get(p1.indexOfName("Gourgeist-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }//hier
                 try {
@@ -58,16 +58,16 @@ public class Spielauswertung {
                 catch(ArrayIndexOutOfBoundsException e) {}
             }
             if(s.indexOf("|switch|p2")!=-1||s.indexOf("|drag|p2")!=-1) {
-                if(s.split("\\|")[3].split(",")[0].indexOf("Silvally-")!=-1 && p2.indexOfName("Silvally-*")!=-1) {//Silvally-Problem
+                if(s.split("\\|")[3].split(",")[0].indexOf("Silvally")!=-1 && p2.indexOfName("Silvally-*")!=-1) {//Silvally-Problem
                     p2.getMons().get(p2.indexOfName("Silvally-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }
-                if(s.split("\\|")[3].split(",")[0].indexOf("Arceus-")!=-1 && p2.indexOfName("Arceus-*")!=-1) {//Arceus-Problem
+                if(s.split("\\|")[3].split(",")[0].indexOf("Arceus")!=-1 && p2.indexOfName("Arceus-*")!=-1) {//Arceus-Problem
                     p2.getMons().get(p2.indexOfName("Arceus-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }
-                if(s.split("\\|")[3].split(",")[0].indexOf("Genesect-")!=-1 && p2.indexOfName("Genesect-*")!=-1) {//Genesect-Problem
+                if(s.split("\\|")[3].split(",")[0].indexOf("Genesect")!=-1 && p2.indexOfName("Genesect-*")!=-1) {//Genesect-Problem
                     p2.getMons().get(p2.indexOfName("Genesect-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }
-                if(s.split("\\|")[3].split(",")[0].indexOf("Gourgeist-")!=-1 && p1.indexOfName("Gourgeist-*")!=-1) {//Genesect-Problem
+                if(s.split("\\|")[3].split(",")[0].indexOf("Gourgeist")!=-1 && p1.indexOfName("Gourgeist-*")!=-1) {//Genesect-Problem
                     p1.getMons().get(p1.indexOfName("Gourgeist-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }//Hier
                 try {
@@ -123,6 +123,7 @@ public class Spielauswertung {
             /*
              * aktive Pokemon abspeichern und LastMove zuruecksetzen
              */
+            System.out.println(s);
             if(s.indexOf("|switch|p1")!=-1||s.indexOf("|drag|p1")!=-1) {
                 activeP1=p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5, s.split("\\|")[2].length())));
                 lastMove=null;
