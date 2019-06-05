@@ -118,9 +118,14 @@ public class GUI {
 
                     for(Player pl:game) {
                         for(Pokemon p:pl.getMons()) {
-                            System.out.println(p.getPokemon());
-                            if(p.getPokemon().equals("Zoroark"))lblZoroark.setVisible(true);
-                            else if(p.getPokemon().equals("Zoroa"))lblZoroark.setVisible(true);
+                            if(p.getPokemon().equals("Zoroark")){
+                                lblZoroark.setText("Watch out, Zoroark is in a Team! It doesn't work with Zoroark!");
+                                lblZoroark.setVisible(true);
+                            }
+                            else if(p.getPokemon().equals("Zoroa")){
+                                lblZoroark.setText("Watch out, Zoroa is in a Team! It doesn't work with Zoroa!");
+                                lblZoroark.setVisible(true);
+                            }
                         }
                     }
 
@@ -192,10 +197,10 @@ public class GUI {
         lblByicelimo.setBounds(710, 11, 72, 14);
         frame.getContentPane().add(lblByicelimo);
 
-        lblZoroark = new JLabel("Watch out, Zoroark is in a Team! Controll the Kills!");
+        lblZoroark = new JLabel("Watch out, Zoroark is in a Team! It doesn't work with Zoroark!");
         lblZoroark.setForeground(Color.RED);
         lblZoroark.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        lblZoroark.setBounds(180, 11, 400, 14);
+        lblZoroark.setBounds(160, 11, 500, 14);
         frame.getContentPane().add(lblZoroark);
         lblZoroark.setVisible(false);
     }

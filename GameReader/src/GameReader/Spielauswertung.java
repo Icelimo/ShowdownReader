@@ -123,7 +123,6 @@ public class Spielauswertung {
             /*
              * aktive Pokemon abspeichern und LastMove zuruecksetzen
              */
-            System.out.println(s);
             if(s.indexOf("|switch|p1")!=-1||s.indexOf("|drag|p1")!=-1) {
                 activeP1=p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5, s.split("\\|")[2].length())));
                 lastMove=null;
@@ -371,6 +370,8 @@ public class Spielauswertung {
             if((s.indexOf("|-status|p1")!=-1)) {
                 if(s.indexOf("|[of] p")!=-1) {
                     activeP1.setStatusedBy(activeP2);
+                } else if(s.indexOf("|[from] item:")!=-1) {
+                    //Dann wird kein StatusedBy gesetzt
                 } else if(lastMove!=null) {
                     activeP1.setStatusedBy(lastMove);
                 } else {
@@ -380,6 +381,8 @@ public class Spielauswertung {
             if((s.indexOf("|-status|p2")!=-1)) {
                 if(s.indexOf("|[of] p")!=-1) {
                     activeP2.setStatusedBy(activeP1);
+                } else if(s.indexOf("|[from] item:")!=-1) {
+                    //Dann wird kein StatusedBy gesetzt
                 } else if(lastMove!=null) {
                     activeP2.setStatusedBy(lastMove);
                 } else {
