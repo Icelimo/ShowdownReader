@@ -56,7 +56,7 @@ public class Player {
         for(Pokemon p: mons) {
             try {
                 if(p.getPokemon().equals(s)) return mons.indexOf(p);
-            } catch(NullPointerException e) {}
+            } catch(NullPointerException ignored) {}
         }
         return -1;
     }
@@ -65,7 +65,7 @@ public class Player {
         for(Pokemon p: mons) {
             try {
                 if(p.getNickname().equals(s)) return mons.indexOf(p);
-            } catch(NullPointerException e) {}
+            } catch(NullPointerException ignored) {}
         }
         return -1;
     }

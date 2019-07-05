@@ -2,8 +2,6 @@ package GameReader;
 
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,21 +15,19 @@ public class GUI {
 
     private JFrame frame;
     private JTextField textField;
-    private JLabel lblPlayer1_Name,lblPlayer2_Name,lblWinLoose,lblWinnerP1,lblWinnerP2,lblFehler,lblByicelimo, lblZoroark;
+    private JLabel lblPlayer1_Name,lblPlayer2_Name,lblWinLoose,lblWinnerP1,lblWinnerP2,lblFehler,lblZoroark;
     private JTextPane textPane1,textPane2;
 
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    GUI window = new GUI();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        EventQueue.invokeLater(() -> {
+            try {
+                GUI window = new GUI();
+                window.frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
@@ -63,77 +59,75 @@ public class GUI {
         textField.setColumns(10);
 
         JButton btnNewButton = new JButton("Apply");
-        btnNewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                try {
-                    Player[] game = Spielauswertung.werteAus(textField.getText());
+        btnNewButton.addActionListener(arg0 -> {
+            try {
+                Player[] game = Spielauswertung.werteAus(textField.getText());
 
-                    lblFehler.setVisible(false);
-                    lblZoroark.setVisible(false);
-                    lblPlayer1_Name.setVisible(true);
-                    lblPlayer2_Name.setVisible(true);
-                    textPane1.setVisible(true);
-                    textPane2.setVisible(true);
-                    lblWinLoose.setVisible(true);
-                    lblWinnerP1.setVisible(true);
-                    lblWinnerP2.setVisible(true);
+                lblFehler.setVisible(false);
+                lblZoroark.setVisible(false);
+                lblPlayer1_Name.setVisible(true);
+                lblPlayer2_Name.setVisible(true);
+                textPane1.setVisible(true);
+                textPane2.setVisible(true);
+                lblWinLoose.setVisible(true);
+                lblWinnerP1.setVisible(true);
+                lblWinnerP2.setVisible(true);
 
-                    lblPlayer1_Name.setText(game[0].getNickname());
-                    lblPlayer2_Name.setText(game[1].getNickname());
+                lblPlayer1_Name.setText(game[0].getNickname());
+                lblPlayer2_Name.setText(game[1].getNickname());
 
-                    textPane1.setText("Kills|Pokemon, dead/alive \r\n");
-                    textPane2.setText("Kills|Pokemon, dead/alive \r\n");
+                textPane1.setText("Kills|Pokemon, dead/alive \r\n");
+                textPane2.setText("Kills|Pokemon, dead/alive \r\n");
 
-                    int deadP1=0;
-                    int deadP2=0;
-                    for (Pokemon p : game[0].getMons()) {//Hallo Dieter\r\nTest\r\nDrei\r\nVier\r\nF\u00FCnf\r\nSechs
-                        textPane1.setText(textPane1.getText()+p.getKills()+"|"+p.getPokemon()+", "+p.DeadToString()+"\r\n");
-                        if(p.isDead())deadP1++;
-                    }
-                    for (Pokemon p : game[1].getMons()) {
-                        textPane2.setText(textPane2.getText()+p.getKills()+"|"+p.getPokemon()+", "+p.DeadToString()+"\r\n");
-                        if(p.isDead())deadP2++;
-                    }
-
-                    lblWinLoose.setText((6-deadP1)+":"+(6-deadP2));
-
-                    if(game[0].isWinner()) {
-                        if(deadP2<6) {
-                            lblWinnerP1.setText("Winner");
-                            lblWinnerP2.setText("ffd. Looser");
-                        } else {
-                            lblWinnerP1.setText("Winner");
-                            lblWinnerP2.setText("Looser");
-                        }
-                    } else {
-                        if(deadP1<6) {
-                            lblWinnerP1.setText("Looser ffd.");
-                            lblWinnerP2.setText("Winner");
-                        } else {
-                            lblWinnerP1.setText("Looser");
-                            lblWinnerP2.setText("Winner");
-                        }
-                    }
-
-
-                    for(Player pl:game) {
-                        for(Pokemon p:pl.getMons()) {
-                            if(p.getPokemon().equals("Zoroark")){
-                                lblZoroark.setText("Watch out, Zoroark is in a Team! It doesn't work with Zoroark!");
-                                lblZoroark.setVisible(true);
-                            }
-                            else if(p.getPokemon().equals("Zoroa")){
-                                lblZoroark.setText("Watch out, Zoroa is in a Team! It doesn't work with Zoroa!");
-                                lblZoroark.setVisible(true);
-                            }
-                        }
-                    }
-
-                } catch (ArithmeticException e) {
-                    lblFehler.setVisible(true);
+                int deadP1=0;
+                int deadP2=0;
+                for (Pokemon p : game[0].getMons()) {//Hallo Dieter\r\nTest\r\nDrei\r\nVier\r\nF\u00FCnf\r\nSechs
+                    textPane1.setText(textPane1.getText()+p.getKills()+"|"+p.getPokemon()+", "+p.DeadToString()+"\r\n");
+                    if(p.isDead())deadP1++;
+                }
+                for (Pokemon p : game[1].getMons()) {
+                    textPane2.setText(textPane2.getText()+p.getKills()+"|"+p.getPokemon()+", "+p.DeadToString()+"\r\n");
+                    if(p.isDead())deadP2++;
                 }
 
+                lblWinLoose.setText((6-deadP1)+":"+(6-deadP2));
+
+                if(game[0].isWinner()) {
+                    if(deadP2<6) {
+                        lblWinnerP1.setText("Winner");
+                        lblWinnerP2.setText("ffd. Looser");
+                    } else {
+                        lblWinnerP1.setText("Winner");
+                        lblWinnerP2.setText("Looser");
+                    }
+                } else {
+                    if(deadP1<6) {
+                        lblWinnerP1.setText("Looser ffd.");
+                        lblWinnerP2.setText("Winner");
+                    } else {
+                        lblWinnerP1.setText("Looser");
+                        lblWinnerP2.setText("Winner");
+                    }
+                }
+
+
+                for(Player pl:game) {
+                    for(Pokemon p:pl.getMons()) {
+                        if(p.getPokemon().equals("Zoroark")){
+                            lblZoroark.setText("Watch out, Zoroark is in a Team! It doesn't work with Zoroark!");
+                            lblZoroark.setVisible(true);
+                        }
+                        else if(p.getPokemon().equals("Zoroa")){
+                            lblZoroark.setText("Watch out, Zoroa is in a Team! It doesn't work with Zoroa!");
+                            lblZoroark.setVisible(true);
+                        }
+                    }
+                }
+
+            } catch (ArithmeticException e) {
+                lblFehler.setVisible(true);
             }
+
         });
         btnNewButton.setBounds(710, 30, 89, 25);
         frame.getContentPane().add(btnNewButton);
@@ -192,7 +186,7 @@ public class GUI {
         frame.getContentPane().add(lblFehler);
         lblFehler.setVisible(false);
 
-        lblByicelimo = new JLabel("By Icelimo");
+        JLabel lblByicelimo = new JLabel("By Icelimo");
         lblByicelimo.setFont(new Font("Tahoma", Font.PLAIN, 15));
         lblByicelimo.setBounds(710, 11, 72, 14);
         frame.getContentPane().add(lblByicelimo);

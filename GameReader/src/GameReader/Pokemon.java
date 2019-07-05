@@ -8,12 +8,6 @@ public class Pokemon {
     private boolean dead = false;
 
 
-
-
-    /**
-     * Konstruktor
-     * @param poke
-     */
     public Pokemon (String poke) {
         pokemon = poke;
     }
