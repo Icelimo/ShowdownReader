@@ -371,7 +371,7 @@ public class Spielauswertung {
                 if(s.contains("|[of] p")) {
                     activeP1.setStatusedBy(activeP2);
                 } else if(s.contains("|[from] item:")) {
-                    //Dann wird kein StatusedBy gesetzt
+                    activeP1.setStatusedBy(null);
                 } else if(lastMove!=null) {
                     activeP1.setStatusedBy(lastMove);
                 } else {
@@ -382,7 +382,7 @@ public class Spielauswertung {
                 if(s.contains("|[of] p")) {
                     activeP2.setStatusedBy(activeP1);
                 } else if(s.contains("|[from] item:")) {
-                    //Dann wird kein StatusedBy gesetzt
+                    activeP2.setStatusedBy(null);
                 } else if(lastMove!=null) {
                     activeP2.setStatusedBy(lastMove);
                 } else {
