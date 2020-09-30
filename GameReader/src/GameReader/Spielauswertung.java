@@ -39,39 +39,29 @@ public class Spielauswertung {
             }
 
             //Nicks & Detailschange
-            if(s.contains("|switch|p1") || s.contains("|drag|p1")) {
-                if(s.split("\\|")[3].split(",")[0].contains("Silvally") && p1.indexOfName("Silvally-*")!=-1) {//Silvally-Problem
-                    p1.getMons().get(p1.indexOfName("Silvally-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
+            if(s.contains("|switch|p") || s.contains("|drag|p")){
+                Player p;
+                if(s.contains("|switch|p1") || s.contains("|drag|p1")) {
+                    p = p1;
                 }
-                if(s.split("\\|")[3].split(",")[0].contains("Arceus") && p1.indexOfName("Arceus-*")!=-1) {//Arceus-Problem
-                    p1.getMons().get(p1.indexOfName("Arceus-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
+                else {
+                    p = p2;
                 }
-                if(s.split("\\|")[3].split(",")[0].contains("Genesect") && p1.indexOfName("Genesect-*")!=-1) {//Genesect-Problem
-                    p1.getMons().get(p1.indexOfName("Genesect-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
+
+                if(s.split("\\|")[3].split(",")[0].contains("Silvally") && p.indexOfName("Silvally-*")!=-1) {//Silvally-Problem
+                    p.getMons().get(p.indexOfName("Silvally-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }
-                if(s.split("\\|")[3].split(",")[0].contains("Gourgeist") && p1.indexOfName("Gourgeist-*")!=-1) {//Gourgeist-Problem
-                    p1.getMons().get(p1.indexOfName("Gourgeist-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
+                if(s.split("\\|")[3].split(",")[0].contains("Arceus") && p.indexOfName("Arceus-*")!=-1) {//Arceus-Problem
+                    p.getMons().get(p.indexOfName("Arceus-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
+                }
+                if(s.split("\\|")[3].split(",")[0].contains("Genesect") && p.indexOfName("Genesect-*")!=-1) {//Genesect-Problem
+                    p.getMons().get(p.indexOfName("Genesect-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
+                }
+                if(s.split("\\|")[3].split(",")[0].contains("Gourgeist") && p.indexOfName("Gourgeist-*")!=-1) {//Gourgeist-Problem
+                    p.getMons().get(p.indexOfName("Gourgeist-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }//hier
                 try {
-                    p1.getMons().get(p1.indexOfName(s.split("\\|")[3].split(",")[0])).setNickname(s.split("\\|")[2].substring(5));
-                }
-                catch(ArrayIndexOutOfBoundsException ignored) {}
-            }
-            if(s.contains("|switch|p2") || s.contains("|drag|p2")) {
-                if(s.split("\\|")[3].split(",")[0].contains("Silvally") && p2.indexOfName("Silvally-*")!=-1) {//Silvally-Problem
-                    p2.getMons().get(p2.indexOfName("Silvally-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
-                }
-                if(s.split("\\|")[3].split(",")[0].contains("Arceus") && p2.indexOfName("Arceus-*")!=-1) {//Arceus-Problem
-                    p2.getMons().get(p2.indexOfName("Arceus-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
-                }
-                if(s.split("\\|")[3].split(",")[0].contains("Genesect") && p2.indexOfName("Genesect-*")!=-1) {//Genesect-Problem
-                    p2.getMons().get(p2.indexOfName("Genesect-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
-                }
-                if(s.split("\\|")[3].split(",")[0].contains("Gourgeist") && p2.indexOfName("Gourgeist-*")!=-1) {//Gourgeist-Problem
-                    p2.getMons().get(p2.indexOfName("Gourgeist-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
-                }//Hier
-                try {
-                    p2.getMons().get(p2.indexOfName(s.split("\\|")[3].split(",")[0])).setNickname(s.split("\\|")[2].substring(5));
+                    p.getMons().get(p.indexOfName(s.split("\\|")[3].split(",")[0])).setNickname(s.split("\\|")[2].substring(5));
                 }
                 catch(ArrayIndexOutOfBoundsException ignored) {}
             }
