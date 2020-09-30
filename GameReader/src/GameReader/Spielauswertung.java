@@ -49,7 +49,7 @@ public class Spielauswertung {
                 if(s.split("\\|")[3].split(",")[0].contains("Genesect") && p1.indexOfName("Genesect-*")!=-1) {//Genesect-Problem
                     p1.getMons().get(p1.indexOfName("Genesect-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }
-                if(s.split("\\|")[3].split(",")[0].contains("Gourgeist") && p1.indexOfName("Gourgeist-*")!=-1) {//Genesect-Problem
+                if(s.split("\\|")[3].split(",")[0].contains("Gourgeist") && p1.indexOfName("Gourgeist-*")!=-1) {//Gourgeist-Problem
                     p1.getMons().get(p1.indexOfName("Gourgeist-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }//hier
                 try {
@@ -67,8 +67,8 @@ public class Spielauswertung {
                 if(s.split("\\|")[3].split(",")[0].contains("Genesect") && p2.indexOfName("Genesect-*")!=-1) {//Genesect-Problem
                     p2.getMons().get(p2.indexOfName("Genesect-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }
-                if(s.split("\\|")[3].split(",")[0].contains("Gourgeist") && p1.indexOfName("Gourgeist-*")!=-1) {//Genesect-Problem
-                    p1.getMons().get(p1.indexOfName("Gourgeist-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
+                if(s.split("\\|")[3].split(",")[0].contains("Gourgeist") && p2.indexOfName("Gourgeist-*")!=-1) {//Gourgeist-Problem
+                    p2.getMons().get(p2.indexOfName("Gourgeist-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }//Hier
                 try {
                     p2.getMons().get(p2.indexOfName(s.split("\\|")[3].split(",")[0])).setNickname(s.split("\\|")[2].substring(5));
