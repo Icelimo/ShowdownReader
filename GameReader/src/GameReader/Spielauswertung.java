@@ -509,20 +509,35 @@ public class Spielauswertung {
             //Kill
             if((s.contains("|[from] Sandstorm"))||(s.contains("|[from] Hail"))) {
                 if((s.contains("|-damage|p1"))) {
-                    if(s.contains("0 fnt")) {
-                        activeP1.setDead(true);
-                        weatherBy.killsPlus1();
+                    if (p2.getMons().contains(weatherBy)){ //Abfrage, ob das Weather von einem gegnerischem Mon kommt
+                        if(s.contains("0 fnt")) {
+                            activeP1.setDead(true);
+                            weatherBy.killsPlus1();
+                        } else {
+                            activeP1.setLastDmgBy(weatherBy);
+                        }
                     } else {
-                        activeP1.setLastDmgBy(weatherBy);
+                        if(s.contains("0 fnt")) {
+                            activeP1.setDead(true);
+                            activeP1.getLastDmgBy().killsPlus1();
+                        }
                     }
                 }
                 if((s.contains("|-damage|p2"))) {
-                    if(s.contains("0 fnt")) {
-                        activeP2.setDead(true);
-                        weatherBy.killsPlus1();
+                    if (p1.getMons().contains(weatherBy)){ //Abfrage, ob das Weather von einem gegnerischem Mon kommt
+                        if(s.contains("0 fnt")) {
+                            activeP2.setDead(true);
+                            weatherBy.killsPlus1();
+                        } else {
+                            activeP2.setLastDmgBy(weatherBy);
+                        }
                     } else {
-                        activeP2.setLastDmgBy(weatherBy);
+                        if(s.contains("0 fnt")) {
+                            activeP2.setDead(true);
+                            activeP2.getLastDmgBy().killsPlus1();
+                        }
                     }
+
                 }
             }
 
