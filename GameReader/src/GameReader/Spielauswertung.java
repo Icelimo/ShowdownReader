@@ -102,6 +102,12 @@ public class Spielauswertung {
             if(s.contains("|move|p2")) {
                 lastMove=p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5)));
             }
+            if (s.contains("|-activate|p1") && s.contains("|ability: Synchronize")){ //Synchronize muss als LastMove abgespeichert werden, um den Status zu tracken
+                lastMove=p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5)));
+            }
+            if (s.contains("|-activate|p2") && s.contains("|ability: Synchronize")){ //Synchronize muss als LastMove abgespeichert werden, um den Status zu tracken
+                lastMove=p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5)));
+            }
 
             /*
              * LastMove am Ende der Runde löschen
