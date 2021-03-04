@@ -102,10 +102,11 @@ public class Spielauswertung {
             if(s.contains("|move|p2")) {
                 lastMove=p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5)));
             }
-            if (s.contains("|-activate|p1") && s.contains("|ability: Synchronize")){ //Synchronize muss als LastMove abgespeichert werden, um den Status zu tracken
+            //Synchronize muss als LastMove abgespeichert werden, um den Status zu tracken. Bei Protect gilt selbiges, wenn es sich um einen Baneful Bunker handelt
+            if (s.contains("|-activate|p1") && (s.contains("|ability: Synchronize") || s.contains("|move: Protect"))){
                 lastMove=p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5)));
             }
-            if (s.contains("|-activate|p2") && s.contains("|ability: Synchronize")){ //Synchronize muss als LastMove abgespeichert werden, um den Status zu tracken
+            if (s.contains("|-activate|p2") && (s.contains("|ability: Synchronize") || s.contains("|move: Protect"))){
                 lastMove=p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5)));
             }
 
