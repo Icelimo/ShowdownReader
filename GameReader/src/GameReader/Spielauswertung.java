@@ -728,3 +728,4 @@ public class Spielauswertung {
 
     }
 }
+//Test
