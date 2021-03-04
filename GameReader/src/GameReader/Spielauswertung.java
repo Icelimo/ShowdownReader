@@ -178,7 +178,6 @@ public class Spielauswertung {
              */
             //Eingesetzt
             if((s.contains("|-activate|p1"))&&(s.split("\\|").length==5)) {
-
                 activeP1.setBindedBy(activeP2);
             }
             if((s.contains("|-activate|p2"))&&(s.split("\\|").length==5)) {
@@ -194,7 +193,7 @@ public class Spielauswertung {
                         activeP1.setLastDmgBy(activeP1.getBindedBy());
                     }
                 }
-                if((s.contains("|-damage|p2"))&&(s.split("\\|").length==4)) {
+                if((s.contains("|-damage|p2"))&&(s.split("\\|").length==6)) {
                     if(s.contains("0 fnt")) {
                         activeP2.setDead(true);
                         activeP2.getBindedBy().killsPlus1();
