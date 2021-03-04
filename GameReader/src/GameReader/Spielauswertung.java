@@ -649,7 +649,7 @@ public class Spielauswertung {
              */
             if((s.contains("|Final Gambit|"))||(s.contains("|Memento|"))) {
                 if((s.contains("|move|p1"))) {
-                    if((!s.contains("|[notarget]"))) {
+                    if(!s.contains("|[notarget]") && !s.contains("|[still]")) {
                         activeP1.setDead(true);
                         if(activeP1.getLastDmgBy()!=null) {
                             activeP1.getLastDmgBy().killsPlus1();
@@ -659,7 +659,7 @@ public class Spielauswertung {
                     }
                 }
                 if((s.contains("|move|p2"))) {
-                    if((!s.contains("|[notarget]"))) {
+                    if(!s.contains("|[notarget]") && !s.contains("|[still]")) {
                         activeP2.setDead(true);
                         if(activeP2.getLastDmgBy()!=null) {
                             activeP2.getLastDmgBy().killsPlus1();
