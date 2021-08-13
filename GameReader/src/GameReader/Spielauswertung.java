@@ -753,11 +753,9 @@ public class Spielauswertung {
 
     /**
      * Just to test a local file, when offline
-     * @param link
-     * @return
      */
-    private static ArrayList<String> getGameArrayListLocalFile (String link){
-        link="C:\\";
+    private static ArrayList<String> getGameArrayListLocalFile (){
+        String link="C:\\";
         try {
             File f = new File(link);
             Scanner in = new Scanner(f);
