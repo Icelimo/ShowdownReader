@@ -1,11 +1,10 @@
 package GameReader;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Spielauswertung {
 
@@ -59,7 +58,10 @@ public class Spielauswertung {
                 }
                 if(s.split("\\|")[3].split(",")[0].contains("Gourgeist") && p.indexOfName("Gourgeist-*")!=-1) {//Gourgeist-Problem
                     p.getMons().get(p.indexOfName("Gourgeist-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
-                }//hier
+                }
+                if(s.split("\\|")[3].split(",")[0].contains("Urshifu") && p.indexOfName("Urshifu-*")!=-1) {//Urshifu-Problem
+                    p.getMons().get(p.indexOfName("Urshifu-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
+                }
                 try {
                     p.getMons().get(p.indexOfName(s.split("\\|")[3].split(",")[0])).setNickname(s.split("\\|")[2].substring(5));
                 }
@@ -76,7 +78,7 @@ public class Spielauswertung {
                 }
             }
 
-            //Datailschange
+            //Detailschange
             if(s.contains("|detailschange|p1")) {
                 p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5))).setPokemon(s.split("\\|")[3].split(",")[0]);
             }
@@ -743,6 +745,45 @@ public class Spielauswertung {
 
             return h;
         } catch (IOException e) {
+            throw new ArithmeticException("Fehler");
+        }
+
+
+    }
+
+    /**
+     * Just to test a local file, when offline
+     * @param link
+     * @return
+     */
+    private static ArrayList<String> getGameArrayListLocalFile (String link){
+        link="C:\\";
+        try {
+            File f = new File(link);
+            Scanner in = new Scanner(f);
+
+            String inputLine;
+            ArrayList<String> h = new ArrayList<>();
+            boolean isBull = true;
+
+            while (in.hasNextLine()) {
+                inputLine = in.nextLine();
+                if(!isBull)
+                    h.add(inputLine);
+
+                if(inputLine.contains("|j|")) {
+                    isBull = false;
+                }
+
+                if(inputLine.contains("|win|")) {
+                    isBull = true;
+                }
+            }
+            in.close();
+
+            return h;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
             throw new ArithmeticException("Fehler");
         }
 
