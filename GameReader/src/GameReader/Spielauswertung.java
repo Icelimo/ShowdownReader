@@ -13,6 +13,7 @@ public class Spielauswertung {
         if(link.indexOf("http:")==0) {
             link="https:"+link.split("http:")[1];
         }
+        link = link +".log";
 
         @SuppressWarnings("unchecked")
         ArrayList<String> game = (ArrayList<String>) getGameArrayList(link).clone();

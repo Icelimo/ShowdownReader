@@ -43,7 +43,7 @@ public class GUI {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        frame = new JFrame();
+        frame = new JFrame("ShowdownReader");
         frame.setBounds(100, 100, 825, 380);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
@@ -62,6 +62,7 @@ public class GUI {
         btnNewButton.addActionListener(arg0 -> {
             try {
                 Player[] game = Spielauswertung.werteAus(textField.getText());
+                frame.setTitle("ShowdownReader: '" + game[0].getNickname() + "' vs. '" + game[1].getNickname() + "'");
 
                 lblFehler.setVisible(false);
                 lblZoroark.setVisible(false);
