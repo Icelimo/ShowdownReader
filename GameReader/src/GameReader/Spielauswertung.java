@@ -94,6 +94,10 @@ public class Spielauswertung {
         Pokemon activeP1=null;
         Pokemon activeP2=null;
         Pokemon weatherBy=null;
+        // Doom Desire & Future Sight
+        Pokemon P1FutureSightBy=null, P2FutureSightBy=null, P1DoomDesireBy=null, P2DoomDesireBy=null;
+        boolean P1FutureSight=false, P2FutureSight=false, P1DoomDesire=false, P2DoomDesire=false;
+
         //Schaden
         for(String s : game) {
             /*
@@ -118,6 +122,10 @@ public class Spielauswertung {
              */
             if(s.contains("|turn|")) {
                 lastMove=null;
+                P1FutureSight=false;
+                P2FutureSight=false;
+                P1DoomDesire=false;
+                P2DoomDesire=false;
             }
 
             /*
@@ -136,43 +144,77 @@ public class Spielauswertung {
              * Direkte Hits, ausgenommen von CurseSD
              */
             if((s.contains("|-damage|p1"))&&(s.split("\\|").length==4)) {
-                if(s.contains("0 fnt")) {
-                    //Wenn CurseSD
-                    if(lastMove==p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5)))) {
-                        if(lastMove.getLastDmgBy()!=null) {
-                            lastMove.getLastDmgBy().killsPlus1();
-                            lastMove.setDead(true);
+                //Wenn FutureSight oder DoomDesire
+                if (P2FutureSight){
+                    if(s.contains("0 fnt")) {
+                        activeP1.setDead(true);
+                        P2FutureSightBy.killsPlus1();
+                    } else {
+                        activeP1.setLastDmgBy(P2FutureSightBy);
+                    }
+                } else if (P2DoomDesire) {
+                    if(s.contains("0 fnt")) {
+                        activeP1.setDead(true);
+                        P2DoomDesireBy.killsPlus1();
+                    } else {
+                        activeP1.setLastDmgBy(P2DoomDesireBy);
+                    }
+                } else {
+                    if(s.contains("0 fnt")) {
+                        //Wenn CurseSD
+                        if (lastMove == p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5)))) {
+                            if (lastMove.getLastDmgBy() != null) {
+                                lastMove.getLastDmgBy().killsPlus1();
+                                lastMove.setDead(true);
+                            } else {
+                                activeP1.setDead(true);
+                                activeP2.killsPlus1();
+                            }
+                            //Wenn nicht CurseSD, also normaler Hit
                         } else {
                             activeP1.setDead(true);
                             activeP2.killsPlus1();
                         }
-                        //Wenn nicht CurseSD, also normaler Hit
                     } else {
-                        activeP1.setDead(true);
-                        activeP2.killsPlus1();
+                        activeP1.setLastDmgBy(activeP2);
                     }
-                } else {
-                    activeP1.setLastDmgBy(activeP2);
                 }
             }
             if((s.contains("|-damage|p2"))&&(s.split("\\|").length==4)) {
-                if(s.contains("0 fnt")) {
-                    //Wenn CurseSD
-                    if(lastMove==p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5)))) {
-                        if(lastMove.getLastDmgBy()!=null) {
-                            lastMove.getLastDmgBy().killsPlus1();
-                            lastMove.setDead(true);
+                //Wenn FutureSight oder DoomDesire
+                if (P1FutureSight){
+                    if(s.contains("0 fnt")) {
+                        activeP2.setDead(true);
+                        P1FutureSightBy.killsPlus1();
+                    } else {
+                        activeP2.setLastDmgBy(P1FutureSightBy);
+                    }
+                } else if(P1DoomDesire) {
+                    if(s.contains("0 fnt")) {
+                        activeP2.setDead(true);
+                        P1DoomDesireBy.killsPlus1();
+                    } else {
+                        activeP2.setLastDmgBy(P1DoomDesireBy);
+                    }
+                } else {
+                    if(s.contains("0 fnt")) {
+                        //Wenn CurseSD
+                        if(lastMove==p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5)))) {
+                            if(lastMove.getLastDmgBy()!=null) {
+                                lastMove.getLastDmgBy().killsPlus1();
+                                lastMove.setDead(true);
+                            } else {
+                                activeP2.setDead(true);
+                                activeP1.killsPlus1();
+                            }
+                            //Wenn nicht CurseSD, also normaler Hit
                         } else {
                             activeP2.setDead(true);
                             activeP1.killsPlus1();
                         }
-                        //Wenn nicht CurseSD, also normaler Hit
                     } else {
-                        activeP2.setDead(true);
-                        activeP1.killsPlus1();
+                        activeP2.setLastDmgBy(activeP1);
                     }
-                } else {
-                    activeP2.setLastDmgBy(activeP1);
                 }
             }
 
@@ -360,6 +402,41 @@ public class Spielauswertung {
                         activeP2.setLastDmgBy(activeP2.getConfusedBy());
                     }
                 }
+            }
+
+            /*
+             * Doom Desire & Future Sight start
+             */
+            // Start
+            if (s.contains("|-start|p1") && s.contains("Future Sight")){
+                P1FutureSightBy = activeP1;
+            }
+            if (s.contains("|-start|p2") && s.contains("Future Sight")){
+                P2FutureSightBy = activeP2;
+            }
+            if (s.contains("|-start|p1") && s.contains("Doom Desire")){
+                P1DoomDesireBy = activeP1;
+            }
+            if (s.contains("|-start|p2") && s.contains("Doom Desire")){
+                P2DoomDesireBy = activeP2;
+            }
+
+            // End
+            if (s.contains("|-end|p2") && s.contains("Future Sight")){
+                lastMove = P1FutureSightBy;
+                P1FutureSight = true;
+            }
+            if (s.contains("|-end|p1") && s.contains("Future Sight")){
+                lastMove = P2FutureSightBy;
+                P2FutureSight = true;
+            }
+            if (s.contains("|-end|p2") && s.contains("Doom Desire")){
+                lastMove = P1DoomDesireBy;
+                P1DoomDesire = true;
+            }
+            if (s.contains("|-end|p1") && s.contains("Doom Desire")){
+                lastMove = P2DoomDesireBy;
+                P2DoomDesire = true;
             }
 
             /*
