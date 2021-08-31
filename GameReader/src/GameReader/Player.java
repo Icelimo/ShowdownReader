@@ -60,14 +60,4 @@ public class Player {
         }
         return -1;
     }
-
-    public int indexOfNick(String s) {
-        for(Pokemon p: mons) {
-            try {
-                if(p.getNickname().equals(s)) return mons.indexOf(p);
-            } catch(NullPointerException ignored) {}
-        }
-        return -1;
-    }
-
 }
