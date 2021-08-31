@@ -38,7 +38,7 @@ public class Spielauswertung {
                 p2.getMons().add(new Pokemon(s.split("\\|")[3].split(",")[0]));
             }
 
-            //Nicks & Detailschange
+            //Detailschange
             if(s.contains("|switch|p") || s.contains("|drag|p")){
                 Player p;
                 if(s.contains("|switch|p1") || s.contains("|drag|p1")) {
@@ -63,10 +63,6 @@ public class Spielauswertung {
                 if(s.split("\\|")[3].split(",")[0].contains("Urshifu") && p.indexOfName("Urshifu-*")!=-1) {//Urshifu-Problem
                     p.getMons().get(p.indexOfName("Urshifu-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }
-                try {
-                    p.getMons().get(p.indexOfName(s.split("\\|")[3].split(",")[0])).setNickname(s.split("\\|")[2].substring(5));
-                }
-                catch(ArrayIndexOutOfBoundsException ignored) {}
             }
 
             //Win
@@ -77,14 +73,6 @@ public class Spielauswertung {
                 if(p2.getNickname().equals(s.split("\\|")[2])) {
                     p2.setWinner(true);
                 }
-            }
-
-            //Detailschange
-            if(s.contains("|detailschange|p1")) {
-                p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5))).setPokemon(s.split("\\|")[3].split(",")[0]);
-            }
-            if(s.contains("|detailschange|p2")) {
-                p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5))).setPokemon(s.split("\\|")[3].split(",")[0]);
             }
         }
 
@@ -104,17 +92,17 @@ public class Spielauswertung {
              * LastMove abspeichern
              */
             if(s.contains("|move|p1")) {
-                lastMove=p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5)));
+                lastMove=activeP1;
             }
             if(s.contains("|move|p2")) {
-                lastMove=p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5)));
+                lastMove=activeP2;
             }
             //Synchronize muss als LastMove abgespeichert werden, um den Status zu tracken. Bei Protect gilt selbiges, wenn es sich um einen Baneful Bunker handelt
             if (s.contains("|-activate|p1") && (s.contains("|ability: Synchronize") || s.contains("|move: Protect"))){
-                lastMove=p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5)));
+                lastMove=activeP1;
             }
             if (s.contains("|-activate|p2") && (s.contains("|ability: Synchronize") || s.contains("|move: Protect"))){
-                lastMove=p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5)));
+                lastMove=activeP2;
             }
 
             /*
@@ -132,12 +120,20 @@ public class Spielauswertung {
              * aktive Pokemon abspeichern und LastMove zuruecksetzen
              */
             if(s.contains("|switch|p1") || s.contains("|drag|p1")) {
-                activeP1=p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5)));
+                activeP1=p1.getMons().get(p1.indexOfName(s.split("\\|")[3].split(",")[0]));
                 lastMove=null;
             }
             if(s.contains("|switch|p2") || s.contains("|drag|p2")) {
-                activeP2=p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5)));
+                activeP2=p2.getMons().get(p2.indexOfName(s.split("\\|")[3].split(",")[0]));
                 lastMove=null;
+            }
+
+            //Detailschange
+            if(s.contains("|detailschange|p1")) {
+                activeP1.setPokemon(s.split("\\|")[3].split(",")[0]);
+            }
+            if(s.contains("|detailschange|p2")) {
+                activeP2.setPokemon(s.split("\\|")[3].split(",")[0]);
             }
 
             /*
@@ -162,7 +158,7 @@ public class Spielauswertung {
                 } else {
                     if(s.contains("0 fnt")) {
                         //Wenn CurseSD
-                        if (lastMove == p1.getMons().get(p1.indexOfNick(s.split("\\|")[2].substring(5)))) {
+                        if (lastMove == activeP1) {
                             if (lastMove.getLastDmgBy() != null) {
                                 lastMove.getLastDmgBy().killsPlus1();
                                 lastMove.setDead(true);
@@ -199,7 +195,7 @@ public class Spielauswertung {
                 } else {
                     if(s.contains("0 fnt")) {
                         //Wenn CurseSD
-                        if(lastMove==p2.getMons().get(p2.indexOfNick(s.split("\\|")[2].substring(5)))) {
+                        if(lastMove==activeP2) {
                             if(lastMove.getLastDmgBy()!=null) {
                                 lastMove.getLastDmgBy().killsPlus1();
                                 lastMove.setDead(true);
@@ -772,22 +768,6 @@ public class Spielauswertung {
                 }
             }
         }
-        /*
-        System.out.println(p1.getMons().get(0).getPokemon()+" "+p1.getMons().get(0).isDead()+" Kills:"+p1.getMons().get(0).getKills());
-        System.out.println(p1.getMons().get(1).getPokemon()+" "+p1.getMons().get(1).isDead()+" Kills:"+p1.getMons().get(1).getKills());
-        System.out.println(p1.getMons().get(2).getPokemon()+" "+p1.getMons().get(2).isDead()+" Kills:"+p1.getMons().get(2).getKills());
-        System.out.println(p1.getMons().get(3).getPokemon()+" "+p1.getMons().get(3).isDead()+" Kills:"+p1.getMons().get(3).getKills());
-        System.out.println(p1.getMons().get(4).getPokemon()+" "+p1.getMons().get(4).isDead()+" Kills:"+p1.getMons().get(4).getKills());
-        System.out.println(p1.getMons().get(5).getPokemon()+" "+p1.getMons().get(5).isDead()+" Kills:"+p1.getMons().get(5).getKills());
-        System.out.println(p2.getMons().get(0).getPokemon()+" "+p2.getMons().get(0).isDead()+" Kills:"+p2.getMons().get(0).getKills());
-        System.out.println(p2.getMons().get(1).getPokemon()+" "+p2.getMons().get(1).isDead()+" Kills:"+p2.getMons().get(1).getKills());
-        System.out.println(p2.getMons().get(2).getPokemon()+" "+p2.getMons().get(2).isDead()+" Kills:"+p2.getMons().get(2).getKills());
-        System.out.println(p2.getMons().get(3).getPokemon()+" "+p2.getMons().get(3).isDead()+" Kills:"+p2.getMons().get(3).getKills());
-        System.out.println(p2.getMons().get(4).getPokemon()+" "+p2.getMons().get(4).isDead()+" Kills:"+p2.getMons().get(4).getKills());
-        System.out.println(p2.getMons().get(5).getPokemon()+" "+p2.getMons().get(5).isDead()+" Kills:"+p2.getMons().get(5).getKills());
-        System.out.println("Player 1 wins(" + p1.getNickname() + "): " + p1.isWinner());
-        System.out.println("Player 2 wins(" + p2.getNickname() + "): " + p2.isWinner());
-        */
         return new Player[] {p1, p2};
 
     }

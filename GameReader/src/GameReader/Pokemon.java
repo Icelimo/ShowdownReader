@@ -2,7 +2,7 @@ package GameReader;
 
 
 public class Pokemon {
-    private String pokemon, nickname;
+    private String pokemon;
     private int kills;
     private Pokemon statusedBy, bindedBy, cursedBy, seededBy, nightmaredBy, confusedBy, lastDmgBy,perishedBy;
     private boolean dead = false;
@@ -73,14 +73,6 @@ public class Pokemon {
 
     public void setPokemon(String pokemon) {
         this.pokemon = pokemon;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public int getKills() {
