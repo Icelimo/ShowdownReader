@@ -3,6 +3,7 @@ package GameReader;
 
 public class Pokemon {
     private String pokemon;
+    private String nickname;
     private int kills;
     private Pokemon statusedBy;
     private Pokemon bindedBy;
@@ -26,6 +27,20 @@ public class Pokemon {
         else return "a";
     }
 
+    @Override
+    public String toString() {
+        return pokemon + "{" +
+                nickname +
+                "}, " + DeadToString();
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public Pokemon getSeededBy() {
         return seededBy;

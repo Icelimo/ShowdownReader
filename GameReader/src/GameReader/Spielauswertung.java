@@ -122,10 +122,16 @@ public class Spielauswertung {
             if(s.contains("|switch|p1") || s.contains("|drag|p1")) {
                 activeP1=p1.getMons().get(p1.indexOfName(s.split("\\|")[3].split(",")[0]));
                 lastMove=null;
+
+                //Nickname
+                activeP1.setNickname(s.split("\\|p1a: ")[1].split("\\|")[0]);
             }
             if(s.contains("|switch|p2") || s.contains("|drag|p2")) {
                 activeP2=p2.getMons().get(p2.indexOfName(s.split("\\|")[3].split(",")[0]));
                 lastMove=null;
+
+                //Nickname
+                activeP2.setNickname(s.split("\\|p2a: ")[1].split("\\|")[0]);
             }
 
             //Detailschange
@@ -808,6 +814,19 @@ public class Spielauswertung {
                     }
                 }
             }
+
+            /*
+             * Revival Blessing
+             */
+            if(s.contains("|[from] move: Revival Blessing")) {
+                if (s.contains("|-heal|p1:")) {
+                    p1.getMons().get(p1.indexOfNickname(s.split("\\|-heal\\|p1: ")[1].split("\\|")[0])).setDead(false);
+                }
+                if (s.contains("|-heal|p2:")) {
+                    p2.getMons().get(p2.indexOfNickname(s.split("\\|-heal\\|p2: ")[1].split("\\|")[0])).setDead(false);
+                }
+            }
+
         }
         return new Player[] {p1, p2};
 
