@@ -4,7 +4,15 @@ package GameReader;
 public class Pokemon {
     private String pokemon;
     private int kills;
-    private Pokemon statusedBy, bindedBy, cursedBy, seededBy, nightmaredBy, confusedBy, lastDmgBy,perishedBy;
+    private Pokemon statusedBy;
+    private Pokemon bindedBy;
+    private Pokemon cursedBy;
+    private Pokemon seededBy;
+    private Pokemon nightmaredBy;
+    private Pokemon confusedBy;
+    private Pokemon lastDmgBy;
+    private Pokemon perishedBy;
+    private Pokemon saltCuredBy;
     private boolean dead = false;
 
 
@@ -103,14 +111,20 @@ public class Pokemon {
         this.kills++;
     }
 
-
     public Pokemon getPerishedBy() {
         return perishedBy;
     }
 
-
     public void setPerishedBy(Pokemon perishedBy) {
         this.perishedBy = perishedBy;
+    }
+
+    public Pokemon getSaltCuredBy() {
+        return saltCuredBy;
+    }
+
+    public void setSaltCuredBy(Pokemon saltCuredBy) {
+        this.saltCuredBy = saltCuredBy;
     }
 
 

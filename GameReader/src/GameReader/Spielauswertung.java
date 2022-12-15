@@ -436,6 +436,37 @@ public class Spielauswertung {
             }
 
             /*
+             * Salt Cure
+             */
+            //Eingesetzt
+            if((s.contains("|-start|p1"))&&(s.contains("|move: Salt Cure"))) {
+                activeP1.setSaltCuredBy(activeP2);
+            }
+            if((s.contains("|-start|p2"))&&(s.contains("|move: Salt Cure"))) {
+                activeP2.setSaltCuredBy(activeP1);
+            }
+
+            //Kill
+            if(s.contains("|[from] Salt Cure")) {
+                if((s.contains("|-damage|p1"))) {
+                    if(s.contains("0 fnt")) {
+                        activeP1.setDead(true);
+                        activeP1.getSaltCuredBy().killsPlus1();
+                    } else {
+                        activeP1.setSaltCuredBy(activeP1.getSaltCuredBy());
+                    }
+                }
+                if((s.contains("|-damage|p2"))) {
+                    if(s.contains("0 fnt")) {
+                        activeP2.setDead(true);
+                        activeP2.getSaltCuredBy().killsPlus1();
+                    } else {
+                        activeP2.setSaltCuredBy(activeP2.getSaltCuredBy());
+                    }
+                }
+            }
+
+            /*
              * PSN BRN
              */
             //Eingesetzt
@@ -684,7 +715,7 @@ public class Spielauswertung {
             }
 
             /*
-             * TSpikes
+             * TSpikes, Toxic Debris
              */
             //Eingesetzt
             if((s.contains("|-sidestart|p1"))&&(s.contains("|move: Toxic Spikes"))) {
