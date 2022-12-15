@@ -536,7 +536,7 @@ public class Spielauswertung {
 
 
             /*
-             * HJK, JK, Life Orb, Recoil, Black Sludge, Sticky Barb, Solar Power, Dry Skin, Mindblown/Steel Beam
+             * HJK, JK, Life Orb, Recoil, Black Sludge, Sticky Barb, Solar Power, Dry Skin, Mindblown, Steel Beam
              */
             if((s.contains("|[from] High Jump Kick")) ||
                     (s.contains("|[from] Jump Kick")) ||
@@ -547,7 +547,8 @@ public class Spielauswertung {
                     (s.contains("|[from] item: Sticky Barb")) ||
                     (s.contains("|[from] ability: Solar Power")) ||
                     (s.contains("|[from] ability: Dry Skin")) ||
-                    (s.contains("|[from] mindblown"))
+                    (s.contains("|[from] mindblown")) ||
+                    (s.contains("|[from] steelbeam"))
             ) {
                 if((s.contains("|-damage|p1"))) {
                     if(s.contains("0 fnt")) {
