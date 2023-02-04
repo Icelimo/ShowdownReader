@@ -63,6 +63,12 @@ public class Spielauswertung {
                 if(s.split("\\|")[3].split(",")[0].contains("Urshifu") && p.indexOfName("Urshifu-*")!=-1) {//Urshifu-Problem
                     p.getMons().get(p.indexOfName("Urshifu-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }
+                if(s.split("\\|")[3].split(",")[0].contains("Zamazenta") && p.indexOfName("Zamazenta-*")!=-1) {//Zamazenta-Problem
+                    p.getMons().get(p.indexOfName("Zamazenta-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
+                }
+                if(s.split("\\|")[3].split(",")[0].contains("Zacian") && p.indexOfName("Zacian-*")!=-1) {//Zacian-Problem
+                    p.getMons().get(p.indexOfName("Zacian-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
+                }
             }
 
             //Win
