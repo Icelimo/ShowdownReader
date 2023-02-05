@@ -69,6 +69,9 @@ public class Spielauswertung {
                 if(s.split("\\|")[3].split(",")[0].contains("Zacian") && p.indexOfName("Zacian-*")!=-1) {//Zacian-Problem
                     p.getMons().get(p.indexOfName("Zacian-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
                 }
+                if(s.split("\\|")[3].split(",")[0].contains("Dudunsparce") && p.indexOfName("Dudunsparce-*")!=-1) {//Dudunsparce-Problem
+                    p.getMons().get(p.indexOfName("Dudunsparce-*")).setPokemon(s.split("\\|")[3].split(",")[0]);
+                }
             }
 
             //Win
