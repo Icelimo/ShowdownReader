@@ -454,10 +454,10 @@ public class Spielauswertung {
              * Salt Cure
              */
             //Eingesetzt
-            if((s.contains("|-start|p1"))&&(s.contains("|move: Salt Cure"))) {
+            if((s.contains("|-start|p1"))&&(s.contains("|Salt Cure"))) {
                 activeP1.setSaltCuredBy(activeP2);
             }
-            if((s.contains("|-start|p2"))&&(s.contains("|move: Salt Cure"))) {
+            if((s.contains("|-start|p2"))&&(s.contains("|Salt Cure"))) {
                 activeP2.setSaltCuredBy(activeP1);
             }
 
