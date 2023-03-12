@@ -118,8 +118,16 @@ public class GUI {
                             lblZoroark.setText("Watch out, Zoroark is in a Team! It doesn't work with Zoroark!");
                             lblZoroark.setVisible(true);
                         }
+                         else if(p.getPokemon().equals("Zoroark-Hisui")){
+                            lblZoroark.setText("Watch out, Zoroark-Hisui is in a Team! It doesn't work with Zoroark-Hisui!");
+                            lblZoroark.setVisible(true);
+                        }
                         else if(p.getPokemon().equals("Zoroa")){
                             lblZoroark.setText("Watch out, Zoroa is in a Team! It doesn't work with Zoroa!");
+                            lblZoroark.setVisible(true);
+                        }
+                        else if(p.getPokemon().equals("Zoroa-Hisui")){
+                            lblZoroark.setText("Watch out, Zoroa-Hisui is in a Team! It doesn't work with Zoroa-Hisui!");
                             lblZoroark.setVisible(true);
                         }
                     }
