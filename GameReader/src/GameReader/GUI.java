@@ -114,21 +114,23 @@ public class GUI {
 
                 for(Player pl:game) {
                     for(Pokemon p:pl.getMons()) {
-                        if(p.getPokemon().equals("Zoroark")){
-                            lblZoroark.setText("Watch out, Zoroark is in a Team! It doesn't work with Zoroark!");
-                            lblZoroark.setVisible(true);
-                        }
-                         else if(p.getPokemon().equals("Zoroark-Hisui")){
-                            lblZoroark.setText("Watch out, Zoroark-Hisui is in a Team! It doesn't work with Zoroark-Hisui!");
-                            lblZoroark.setVisible(true);
-                        }
-                        else if(p.getPokemon().equals("Zoroa")){
-                            lblZoroark.setText("Watch out, Zoroa is in a Team! It doesn't work with Zoroa!");
-                            lblZoroark.setVisible(true);
-                        }
-                        else if(p.getPokemon().equals("Zoroa-Hisui")){
-                            lblZoroark.setText("Watch out, Zoroa-Hisui is in a Team! It doesn't work with Zoroa-Hisui!");
-                            lblZoroark.setVisible(true);
+                        switch (p.getPokemon()) {
+                            case "Zoroark":
+                                lblZoroark.setText("Watch out, Zoroark is in a Team! It doesn't work with Zoroark!");
+                                lblZoroark.setVisible(true);
+                                break;
+                            case "Zoroark-Hisui":
+                                lblZoroark.setText("Watch out, Zoroark-Hisui is in a Team! It doesn't work with Zoroark-Hisui!");
+                                lblZoroark.setVisible(true);
+                                break;
+                            case "Zoroa":
+                                lblZoroark.setText("Watch out, Zoroa is in a Team! It doesn't work with Zoroa!");
+                                lblZoroark.setVisible(true);
+                                break;
+                            case "Zoroa-Hisui":
+                                lblZoroark.setText("Watch out, Zoroa-Hisui is in a Team! It doesn't work with Zoroa-Hisui!");
+                                lblZoroark.setVisible(true);
+                                break;
                         }
                     }
                 }
